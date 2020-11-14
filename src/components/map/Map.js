@@ -8,6 +8,7 @@ import {
 	Popup,
 	useMapEvents,
 } from 'react-leaflet'
+import ThemeContext from '../../contexts/Theme'
 
 function LocationMarker({ onFetchLocation }) {
 	const [position, setPosition] = React.useState(null)
@@ -48,6 +49,7 @@ LocationMarker.proptypes = {
 }
 
 function Map() {
+	const { theme, toggleTheme } = React.useContext(ThemeContext)
 	const [loadingLocation, setLoadingLocation] = React.useState(null)
 	if (loadingLocation) {
 		return <h2>Getting Your location... </h2>
@@ -60,6 +62,7 @@ function Map() {
 
 	return (
 		<>
+			<button onClick={toggleTheme}>{theme}</button>
 			<MapContainer
 				center={{ lat: 45.5411642, lon: -122.672712999 }}
 				zoom={14}
@@ -81,7 +84,3 @@ function Map() {
 }
 
 export default Map
-
-Map.proptypes = {
-	theme: PropTypes.object.isRequired,
-}

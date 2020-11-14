@@ -1,13 +1,26 @@
 import React from 'react'
 import { Container, GlobalStyles } from '../styles'
 import Map from './map/Map'
+import { ThemeProvider } from '../contexts/Theme'
 
-export default function App() {
-	return (
-		<Container>
-			<GlobalStyles />
-			<img className='logo' src='./public/BikeTownLogo.svg' />
-			<Map />
-		</Container>
-	)
+class App extends React.Component {
+	state = {
+		theme: 'light',
+		toggleTheme: () => {
+			this.setState( ({theme}) => ({theme: theme === 'light' ? 'dark' : 'light' }) )
+		}
+	}
+
+	render() {
+		return (
+			<Container>
+				<ThemeProvider value={this.state}>
+					<GlobalStyles />
+					<img className='logo' src='./public/BikeTownLogo.svg' />
+					<Map />
+				</ThemeProvider>
+			</Container>
+		)
+	}
 }
+export default App
