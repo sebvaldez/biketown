@@ -1,0 +1,9 @@
+{
+  "name": "biketown",
+  "version": "1.0.0",
+  "description": "Nike API for BikeTown Bikes",
+  "main": "index.js",
+  "author": "sebastian valdez",
+  "license": "MIT",
+  "private": false
+}
