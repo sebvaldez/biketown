@@ -1,5 +1,5 @@
 import React from 'react'
 
-export default function App (props) {
-  return <h1>BikeTown</h1>
+export default function App() {
+	return <h1>BikeTown</h1>
 }
