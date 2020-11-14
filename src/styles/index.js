@@ -19,7 +19,7 @@ export const GlobalStyles = createGlobalStyle`
 
   .logo {
     min-width: 220px;
-    max-width: 400px;
+    max-width: 320px;
     padding: 0;
     margin: 0;
   }
@@ -31,6 +31,14 @@ export const GlobalStyles = createGlobalStyle`
     max-height: 320px;
     width: calc(100vw - 3rem)
   }
+  
+  // styles for desktop
+  @media screen and (min-width: 768px) {
+    .logo {
+      max-width: 400px
+    }
+  }
+
 `
 
 export const Container = styled.div`

@@ -1,4 +1,5 @@
 import React from 'react'
+import { useGeolocation } from 'react-use'
 import PropTypes from 'prop-types'
 import {
 	MapContainer,
@@ -8,16 +9,26 @@ import {
 	useMapEvents,
 } from 'react-leaflet'
 
-function LocationMarker() {
+function LocationMarker({ onFetchLocation }) {
 	const [position, setPosition] = React.useState(null)
+	const location = useGeolocation({
+		maximumAge: 0,
+		enableHighAccuracy: true,
+		timeout: 3000,
+	})
 
 	const map = useMapEvents({
 		click() {
-			map.locate()
-		},
-		locationfound(e) {
-			setPosition(e.latlng)
-			map.flyTo(e.latlng, map.getZoom())
+			console.log('locaiton marker click', location)
+			const { loading, latitude, longitude } = location
+			if (loading) {
+				onFetchLocation(loading)
+			} else {
+				let latlng = { lat: latitude, lon: longitude }
+				setPosition(latlng)
+				onFetchLocation(loading)
+				map.flyTo(latlng, map.getZoom())
+			}
 		},
 	})
 
@@ -32,15 +43,29 @@ function LocationMarker() {
 	)
 }
 
+LocationMarker.proptypes = {
+	onFetchLocation: PropTypes.func.isRequired,
+}
+
 function Map() {
+	const [loadingLocation, setLoadingLocation] = React.useState(null)
+	if (loadingLocation) {
+		return <h2>Getting Your location... </h2>
+	}
+
+	const handleLocationLoad = (loading) => {
+		console.log('handle location load')
+		setLoadingLocation(loading)
+	}
+
 	return (
 		<>
 			<MapContainer
 				center={{ lat: 45.5411642, lon: -122.672712999 }}
-				zoom={13}
+				zoom={14}
 				scrollWheelZoom={false}
 			>
-				<LocationMarker />
+				<LocationMarker onFetchLocation={handleLocationLoad} />
 				<TileLayer
 					attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 					url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
@@ -56,3 +81,7 @@ function Map() {
 }
 
 export default Map
+
+Map.proptypes = {
+	theme: PropTypes.object.isRequired,
+}
