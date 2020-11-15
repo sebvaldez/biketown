@@ -2,6 +2,7 @@ import React from 'react'
 import { Container, GlobalStyles } from '../styles'
 import Map from './map/Map'
 import { ThemeProvider } from '../contexts/Theme'
+import Nav from './Nav'
 
 class App extends React.Component {
 	state = {
@@ -16,6 +17,7 @@ class App extends React.Component {
 			<Container>
 				<ThemeProvider value={this.state}>
 					<GlobalStyles />
+					<Nav />
 					<img className='logo' src='./public/BikeTownLogo.svg' />
 					<Map />
 				</ThemeProvider>

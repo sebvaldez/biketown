@@ -10,6 +10,8 @@ import {
 } from 'react-leaflet'
 import ThemeContext from '../../contexts/Theme'
 
+// todo FIX GETTING LOCATION TIME AND BUG... JUST MAKE IT YOUR OWN HOOK
+
 function LocationMarker({ onFetchLocation }) {
 	const [position, setPosition] = React.useState(null)
 	const location = useGeolocation({
@@ -25,7 +27,7 @@ function LocationMarker({ onFetchLocation }) {
 			if (loading) {
 				onFetchLocation(loading)
 			} else {
-				let latlng = { lat: latitude, lon: longitude }
+				let latlng = { lon: longitude, lat: latitude }
 				setPosition(latlng)
 				onFetchLocation(loading)
 				map.flyTo(latlng, map.getZoom())
@@ -48,6 +50,23 @@ LocationMarker.proptypes = {
 	onFetchLocation: PropTypes.func.isRequired,
 }
 
+const MapTile = () => {
+	const { theme } = React.useContext(ThemeContext)
+	const LightTile = () => (
+		<TileLayer
+			attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+			url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+		/>
+	)
+	const DarkTile = () => (
+		<TileLayer
+			attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+			url='https://api.mapbox.com/styles/v1/sebvaldez/ckh2sq6d31zw219odhj6ffpui/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1Ijoic2VidmFsZGV6IiwiYSI6ImNraDJzdHg3NTBmMDgyeG85eGhjZnBleTQifQ.QXsy1UVuaXzg9ouGsbYMQw'
+		/>
+	)
+	return theme === 'light' ? <DarkTile /> : <LightTile />
+}
+
 function Map() {
 	const { theme, toggleTheme } = React.useContext(ThemeContext)
 	const [loadingLocation, setLoadingLocation] = React.useState(null)
@@ -62,22 +81,13 @@ function Map() {
 
 	return (
 		<>
-			<button onClick={toggleTheme}>{theme}</button>
 			<MapContainer
 				center={{ lat: 45.5411642, lon: -122.672712999 }}
 				zoom={14}
 				scrollWheelZoom={false}
 			>
+				<MapTile />
 				<LocationMarker onFetchLocation={handleLocationLoad} />
-				<TileLayer
-					attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-					url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-				/>
-				<Marker position={[51.505, -0.09]}>
-					<Popup>
-						A pretty CSS3 popup. <br /> Easily customizable.
-					</Popup>
-				</Marker>
 			</MapContainer>
 		</>
 	)

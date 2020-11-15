@@ -31,7 +31,7 @@ export const GlobalStyles = createGlobalStyle`
     max-height: 320px;
     width: calc(100vw - 3rem)
   }
-  
+
   // styles for desktop
   @media screen and (min-width: 768px) {
     .logo {
@@ -49,4 +49,15 @@ export const Container = styled.div`
 	justify-content: center;
 	align-items: center;
 	border: 2px red dotted;
+`
+
+export const StyledNav = styled.nav`
+	position: absolute;
+	top: 0;
+	border: 3px purple dotted;
+	width: 100vw;
+	padding: 0.5rem;
+	display: flex;
+	flex-direction: reverse;
+	justify-content: space-between;
 `
