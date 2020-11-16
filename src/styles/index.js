@@ -48,13 +48,13 @@ export const Container = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	border: 2px red dotted;
+	/* border: 2px red dotted; */
 `
 
 export const StyledNav = styled.nav`
 	position: absolute;
 	top: 0;
-	border: 3px purple dotted;
+	/* border: 3px purple dotted; */
 	width: 100vw;
 	padding: 0.5rem;
 	display: flex;
