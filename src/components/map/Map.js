@@ -1,14 +1,9 @@
 import React from 'react'
 import { useGeolocation } from 'react-use'
 import PropTypes from 'prop-types'
-import {
-	MapContainer,
-	TileLayer,
-	Marker,
-	Popup,
-	useMapEvents,
-} from 'react-leaflet'
+import { MapContainer, Marker, Popup, useMapEvents } from 'react-leaflet'
 import ThemeContext from '../../contexts/Theme'
+import { MapTile } from './MapTile'
 
 // todo FIX GETTING LOCATION TIME AND BUG... JUST MAKE IT YOUR OWN HOOK
 
@@ -17,7 +12,6 @@ function LocationMarker({ onFetchLocation }) {
 	const location = useGeolocation({
 		maximumAge: 0,
 		enableHighAccuracy: true,
-		timeout: 3000,
 	})
 
 	const map = useMapEvents({
@@ -48,23 +42,6 @@ function LocationMarker({ onFetchLocation }) {
 
 LocationMarker.proptypes = {
 	onFetchLocation: PropTypes.func.isRequired,
-}
-
-const MapTile = () => {
-	const { theme } = React.useContext(ThemeContext)
-	const LightTile = () => (
-		<TileLayer
-			attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-			url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-		/>
-	)
-	const DarkTile = () => (
-		<TileLayer
-			attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-			url='https://api.mapbox.com/styles/v1/sebvaldez/ckh2sq6d31zw219odhj6ffpui/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1Ijoic2VidmFsZGV6IiwiYSI6ImNraDJzdHg3NTBmMDgyeG85eGhjZnBleTQifQ.QXsy1UVuaXzg9ouGsbYMQw'
-		/>
-	)
-	return theme === 'light' ? <DarkTile /> : <LightTile />
 }
 
 function Map() {
